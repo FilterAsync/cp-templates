@@ -1,3 +1,4 @@
+// finding lca by binary lifting + euler tour
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -35,12 +36,12 @@ const double EPS = 1E-9;
 
 vector<int> adj[MAXN];
 int start[MAXN], finish[MAXN];
-int lift[MAXN][MAX_EXP];
+int lift[MAXN][MAX_EXP + 1];
 int timer = 0;
-int n, q;
 
 void dfs(int u, int p = 0) {
 	start[u] = ++timer;
+	lift[u][0] = p;
 
 	for (int v : adj[u]) {
 		if (v != p) {

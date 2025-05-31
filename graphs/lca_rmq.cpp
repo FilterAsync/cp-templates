@@ -35,8 +35,8 @@ const double EPS = 1E-9;
 vector<int> adj[MAXN];
 int tin[MAXN], euler_tour[2 * MAXN];
 int t[4 * MAXN];
-int n;
 int timer = 0;
+int n;
 
 void dfs(int node = 0, int parent = -1) {
 	tin[node] = timer;
