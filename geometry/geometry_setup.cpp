@@ -113,7 +113,22 @@ void print_points(const vector<Point> &points) {
 	cout << el;
 }
 
-// Function to solve the problem
+// Line structure for representing a line in 2D space
+struct Line { // Ax + By = C
+	double a, b, c;
+
+	Line(double a = 0, double b = 0, double c = 0) : a(a), b(b), c(c) {}
+	Line(Point A, Point B) {
+		a = B.y - A.y;
+		b = A.x - B.x;
+		c = a * A.x + b * A.y;
+	}
+
+	bool contains(const Point &p) const {
+		return fabs(a * p.x + b * p.y - c) < EPS;
+	}
+};
+
 void solve() {
 	
 }
