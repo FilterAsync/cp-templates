@@ -33,33 +33,33 @@ const ll MOD = 1E9 + 7, INF = 1E18;
 const double EPS = 1E-9;
 
 vector<int> adj[MAXN];
-int low[MAXN], disc[MAXN], scc[MAXN];
-stack<int> st;
+int low[MAXN], num[MAXN], scc[MAXN];
 bool in_stack[MAXN];
-int time_counter = 0, scc_count = 0;
+stack<int> st;
+int counter = 0, scc_cnt = 0;
 
 void tarjan(int u) {
-	disc[u] = low[u] = ++time_counter;
+	low[u] = num[u] = ++counter;
 	st.push(u);
 	in_stack[u] = true;
 
 	for (int v : adj[u]) {
-		if (disc[v] == -1) {
+		if (!num[v]) {
 			tarjan(v);
-			low[u] = min(low[u], low[v]);
+			chmin(low[u], low[v]);
 		} else if (in_stack[v]) {
-			low[u] = min(low[u], disc[v]);
+			chmin(low[u], num[v]);
 		}
 	}
 
-	if (low[u] == disc[u]) {
-		while (true) {
-			int v = st.top(); st.pop();
+	if (low[u] == num[u]) {
+		scc_cnt++;
+		int v;
+		do {
+			v = st.top(); st.pop();
+			scc[v] = scc_cnt;
 			in_stack[v] = false;
-			scc[v] = scc_count;
-			if (v == u) break;
-		}
-		scc_count++;
+		} while (v != u);
 	}
 }
 

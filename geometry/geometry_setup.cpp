@@ -33,12 +33,13 @@ const ll MOD = 1E9 + 7, INF = 1E18;
 const double EPS = 1E-9;
 
 // Geometry set up for geometry problems
+using T = ll;
+
 struct Point {
-	double x, y;
+	T x, y;
 
-	Point(double x = 0, double y = 0) : x(x), y(y) {}
+	Point(T x = 0, T y = 0) : x(x), y(y) {}
 
-	// Input and output operators
 	friend istream &operator>>(istream &is, Point &p) {
 		return is >> p.x >> p.y;
 	}
@@ -47,7 +48,6 @@ struct Point {
 		return os << "(" << p.x << ", " << p.y << ")";
 	}
 
-	// Comparison operators
 	bool operator==(const Point &p) const {
 		return (fabs(x - p.x) < EPS && fabs(y - p.y) < EPS);
 	}
@@ -56,7 +56,6 @@ struct Point {
 		return !(*this == p);
 	}
 
-	// Arithmetic operators
 	Point operator+(const Point &p) const {
 		return Point(x + p.x, y + p.y);
 	}
@@ -69,51 +68,31 @@ struct Point {
 		return Point(-x, -y);
 	}
 
-	Point operator*(double k) const {
+	Point operator*(T k) const {
 		return Point(x * k, y * k);
 	}
 
-	Point operator/(double k) const {
+	Point operator/(T k) const {
 		return Point(x / k, y / k);
 	}
 
-	// Dot and cross product
-	double dot(const Point &p) const {
+	T dot(const Point &p) const {
 		return x * p.x + y * p.y;
 	}
 
-	double cross(const Point &p) const {
+	T cross(const Point &p) const {
 		return x * p.y - y * p.x;
 	}
 
-	// Distance functions
 	double distance(const Point &p) const {
 		return sqrt((x - p.x) * (x - p.x) + (y - p.y) * (y - p.y));
 	}
 
-	double length() const {
+	double magnitude() const {
 		return sqrt(x * x + y * y);
 	}
 };
 
-// Function to read a vector of points
-vector<Point> read_points(int n) {
-	vector<Point> points(n);
-	for (int i = 0; i < n; ++i) {
-		cin >> points[i];
-	}
-	return points;
-}
-
-// Function to print a vector of points
-void print_points(const vector<Point> &points) {
-	for (const auto &p : points) {
-		cout << p << " ";
-	}
-	cout << el;
-}
-
-// Line structure for representing a line in 2D space
 struct Line { // Ax + By = C
 	double a, b, c;
 
@@ -126,6 +105,36 @@ struct Line { // Ax + By = C
 
 	bool contains(const Point &p) const {
 		return fabs(a * p.x + b * p.y - c) < EPS;
+	}
+};
+
+struct Polygon {
+	int n;
+	vector<Point> vertices;
+
+	Polygon(Point a, Point b, Point c) {
+		vertices.push_back(a);
+		vertices.push_back(b);
+		vertices.push_back(c);
+		n = 3;
+	}
+
+	Polygon(vector<Point> __vertices) {
+		vertices = __vertices;
+		n = sz(__vertices);
+	}
+
+	T db_area() const {
+		T res = 0;
+		FOR(i, 0, n - 1) {
+			int j = (i + 1) % n;
+			res += vertices[i].cross(vertices[j]);
+		}
+		return abs(res);
+	}
+
+	double area() const {
+		return (double)db_area() / 2;
 	}
 };
 

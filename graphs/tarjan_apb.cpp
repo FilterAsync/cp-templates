@@ -33,36 +33,35 @@ const ll MOD = 1E9 + 7, INF = 1E18;
 const double EPS = 1E-9;
 
 vector<int> adj[MAXN];
-int low[MAXN], disc[MAXN], parent[MAXN];
-bool ap[MAXN];
+int low[MAXN], num[MAXN];
+bool joint[MAXN];
 vector<pii> bridges;
-int time_counter = 0;
+int counter = 0;
 
-void tarjan(int u) {
-	disc[u] = low[u] = ++time_counter;
+void tarjan(int u, int pre = 0) {
+	low[u] = num[u] = ++counter;
 	int children = 0;
 
 	for (int v : adj[u]) {
-		if (disc[v] == -1) {
-			parent[v] = u;
+		if (!num[v]) {
 			children++;
-			tarjan(v);
+			tarjan(v, u);
 
-			low[u] = min(low[u], low[v]);
+			chmin(low[u], low[v]);
 
-			if (low[v] >= disc[u]) {
-				ap[u] = true;
+			if (pre && low[v] >= num[u]) {
+				joint[u] = true;
 			}
-			if (low[v] > disc[u]) {
+			if (low[v] == num[v]) {
 				bridges.emplace_back(u, v);
 			}
-		} else if (v != parent[u]) {
-			low[u] = min(low[u], disc[v]);
+		} else if (v != pre) {
+			chmin(low[u], num[v]);
 		}
 	}
 
-	if (parent[u] == -1 && children >= 2) {
-		ap[u] = true;
+	if (!pre) {
+		joint[u] = children >= 2;
 	}
 }
 
