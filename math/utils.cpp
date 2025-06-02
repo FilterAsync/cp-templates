@@ -42,6 +42,19 @@ int round_up(int x, int n) {
 	return x + (n - (x % n)) % n;
 }
 
+// modular arithmetic operations
+int mod_add(int a, int b, int mod = MOD) {
+	return (a % mod + b % mod) % mod;
+}
+
+int mod_sub(int a, int b, int mod = MOD) {
+	return (a % mod - b % mod + mod) % mod;
+}
+
+int mod_mul(int a, int b, int mod = MOD) {
+	return ((a % mod) * (b % mod)) % mod;
+}
+
 void solve() {
 	
 }
