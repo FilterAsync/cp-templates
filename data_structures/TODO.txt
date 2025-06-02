@@ -1,0 +1,12 @@
+Write templates for:
+1. DSU
+2. Fenwick Tree
+3. Segment Tree
+4. Sparse Table
+5. Skip List
+6. Segment Tree 2D
+7. Fenwick Tree 2D
+8. Lichao Tree
+9. Treap
+10. Splay Tree
+11. Link/Cut Tree

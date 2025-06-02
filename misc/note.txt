@@ -1,0 +1,1 @@
+These are common competitive programming techniques that can be useful in various problems.

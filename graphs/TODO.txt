@@ -1,0 +1,13 @@
+Write templates for:
+1. Shortest path algorithms (Dijkstra, Floyd-Warshall, Bellman-Ford)
+2. Minimum Spanning Tree algorithms (Kruskal, Prim)
+3. Network flow algorithms (Ford-Fulkerson, Edmonds-Karp)
+4. Topological sorting algorithms (Kahn's algorithm)
+5. Tarjan's algorithm for articulation points and bridges
+6. Tarjan's algorithm for strongly connected components
+7. Kosaraju's algorithm for strongly connected components
+8. Tarjan's algorithm for biconnected components
+9. Graph coloring algorithms (Greedy coloring, Welsh-Powell algorithm)
+10. Graph isomorphism algorithms (naive, VF2 algorithm)
+11. Graph matching algorithms (Hungarian algorithm, Hopcroft-Karp algorithm)
+12. Graph partitioning algorithms (Kernighan-Lin algorithm, Spectral clustering)
