@@ -29,6 +29,8 @@ using ll = long long;
 
 #define LOCAL
 
+mt19937 rng((uint32_t)chrono::steady_clock::now().time_since_epoch().count());
+
 const int MAXN = 1E5 + 5;
 const ll MOD = 1E9 + 7, INF = 1E18;
 const double EPS = 1E-9;
@@ -37,6 +39,7 @@ const double EPS = 1E-9;
 class HashedString {
   private:
     const ll MOD = 1E9 + 7;
+    // const ll BASE = uniform_int_distribution<ll>(0, MOD - 1)(rng);
     const ll BASE = 311;
     vector<ll> power;
     vector<ll> p_hash;
