@@ -63,7 +63,7 @@ public:
         root = new Node();
     }
 
-    void insert(const string& word) {
+    void insert(string const& word) {
         Node* node = root;
         for (char const &c : word) {
             int idx = c - 'a';
@@ -75,10 +75,10 @@ public:
         node->is_word = true;
     }
 
-    void remove(const string &word) {
+    void remove(string const &word) {
         Node* node = root;
         stack<Node*> nodes;
-        for (char c : word) {
+        for (char const &c : word) {
             int idx = c - 'a';
             if (!node->children[idx]) return;
             nodes.push(node);
@@ -100,9 +100,9 @@ public:
         }
     }
 
-    bool search(const string &word) {
+    bool search(string const &word) {
         Node* node = root;
-        for (char c : word) {
+        for (char const &c : word) {
             int idx = c - 'a';
             if (!node->children[idx]) return false;
             node = node->children[idx];
@@ -110,7 +110,7 @@ public:
         return node->is_word;
     }
 
-    bool find(const string &prefix) {
+    bool find(string const &prefix) {
         Node* node = root;
         for (char c : prefix) {
             int idx = c - 'a';
