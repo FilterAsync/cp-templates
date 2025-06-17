@@ -47,48 +47,25 @@ const ll MOD = 1E9 + 7, INFLL = 1E18;
 const double EPS = 1E-9;
 
 struct Node {
-    Node* child[26];
+    Node* child[2];
     int exist, cnt;
 
     Node() {
-        fill(begin(child), end(child), nullptr);
+        child[0] = child[1] = nullptr;
         exist = cnt = 0;
     }
 };
 
 struct Trie {
-private:
-    bool _remove(Node* p, string& s, int i) {
-        if (i != sz(s)) {
-            int c = s[i] - 'a';
-            bool is_removed = _remove(p->child[c], s, i + 1);
-            if (is_removed) {
-                p->child[c] = nullptr;
-            }
-        } else {
-            p->exist--;
-        }
-
-        if (p != root) {
-            p->cnt--;
-            if (p->cnt == 0) {
-                delete(p);
-                return true;
-            }
-        }
-
-        return false;
-    }
-public:
     Node* root;
     Trie() {
         root = new Node();
     };
 
-    void insert(string s) {
+    void insert(int x) {
         Node* p = root;
-        for (auto f : s) {
-            int c = f - 'a';
+        FOD(i, 31, 0) {
+            int c = (x >> i) & 1;
             if (p->child[c] == nullptr) {
                 p->child[c] = new Node();
             }
@@ -98,17 +75,34 @@ public:
         p->exist++;
     }
 
-    void erase(string s) {
-        if (find(s)) {
-            _remove(root, s, 0);
+    void erase(int x) {
+        if (!find(x)) {
+            return;
         }
+
+        Node* p = root;
+        FOD(i, 31, 0) {
+            int c = (x >> i) & 1;
+            Node* tmp = p->child[c];
+            if (tmp == nullptr) {
+                return;
+            }
+            tmp->cnt--;
+            if (tmp->cnt == 0) {
+                tmp->child[c] = nullptr;
+                return;
+            }
+            p = tmp;
+        }
+
+        p->exist--;
     }
 
-    bool find(string s) {
+    bool find(int x) {
         Node* p = root;
 
-        for (auto f : s) {
-            int c = f - 'a';
+        FOD(i, 31, 0) {
+            int c = (x >> i) & 1;
             if (p->child[c] == nullptr) {
                 return false;
             }
