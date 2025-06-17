@@ -15,8 +15,8 @@ template<class T> bool chmin(T &a, T const &b) {
 #define pll pair<ll, ll>
 #define fi first
 #define se second
-#define FOR(i, l, r) for (int i = l; i <= r; i++)
-#define FOD(i, l, r) for (int i = l; i >= r; i--)
+#define FOR(i, l, r) for (ll i = l; i <= r; i++)
+#define FOD(i, l, r) for (ll i = l; i >= r; i--)
 #define all(x) (x).begin(), (x).end()
 #define rall(x) (x).rbegin(), (x).rend()
 #define sz(x) (int)(x).size()
@@ -47,93 +47,80 @@ const ll MOD = 1E9 + 7, INFLL = 1E18;
 const double EPS = 1E-9;
 
 struct Node {
-    Node* children[26];
-    bool is_word;
+    Node* child[26];
+    int exist, cnt;
 
-    Node() : is_word(false) {
-        fill(begin(children), end(children), nullptr);
+    Node() {
+        fill(begin(child), end(child), nullptr);
+        exist = cnt = 0;
     }
 };
 
-class Trie {
+struct Trie {
 private:
-    Node* root;
+    bool _remove(Node* p, string& s, int i) {
+        if (i != sz(s)) {
+            int c = s[i] - 'a';
+            bool is_removed = _remove(p->child[c], s, i + 1);
+            if (is_removed) {
+                p->child[c] = nullptr;
+            }
+        } else {
+            p->exist--;
+        }
+
+        if (p != root) {
+            p->cnt--;
+            if (p->cnt == 0) {
+                delete(p);
+                return true;
+            }
+        }
+
+        return false;
+    }
 public:
+    Node* root;
     Trie() {
         root = new Node();
-    }
+    };
 
-    void insert(string const& word) {
-        Node* node = root;
-        for (char const &c : word) {
-            int idx = c - 'a';
-            if (!node->children[idx]) {
-                node->children[idx] = new Node();
+    void insert(string s) {
+        Node* p = root;
+        for (auto f : s) {
+            int c = f - 'a';
+            if (p->child[c] == nullptr) {
+                p->child[c] = new Node();
             }
-            node = node->children[idx];
+            p = p->child[c];
+            p->cnt++;
         }
-        node->is_word = true;
+        p->exist++;
     }
 
-    void remove(string const &word) {
-        Node* node = root;
-        stack<Node*> nodes;
-        for (char const &c : word) {
-            int idx = c - 'a';
-            if (!node->children[idx]) return;
-            nodes.push(node);
-            node = node->children[idx];
+    void erase(string s) {
+        if (find(s)) {
+            _remove(root, s, 0);
         }
-        if (!node->is_word) return;
-        node->is_word = false;
+    }
 
-        FOD(i, sz(word) - 1, 0) {
-            Node* parent = nodes.top();
-            nodes.pop();
-            int idx = word[i] - 'a';
-            if (node->is_word || any_of(begin(node->children), end(node->children), [](Node* child) { return child != nullptr; })) {
-                break;
+    bool find(string s) {
+        Node* p = root;
+
+        for (auto f : s) {
+            int c = f - 'a';
+            if (p->child[c] == nullptr) {
+                return false;
             }
-            delete parent->children[idx];
-            parent->children[idx] = nullptr;
-            node = parent;
+            p = p->child[c];
         }
-    }
 
-    bool search(string const &word) {
-        Node* node = root;
-        for (char const &c : word) {
-            int idx = c - 'a';
-            if (!node->children[idx]) return false;
-            node = node->children[idx];
-        }
-        return node->is_word;
-    }
-
-    bool find(string const &prefix) {
-        Node* node = root;
-        for (char c : prefix) {
-            int idx = c - 'a';
-            if (!node->children[idx]) return false;
-            node = node->children[idx];
-        }
-        return true;
+        return p->exist != 0;
     }
 };
 
 void solve() {
-    Trie trie;
-    trie.insert("hello");
-    trie.insert("world");
-    cout << (trie.search("hello") ? "Found 'hello'" : "Not found 'hello'") << el;
-    cout << (trie.search("hell") ? "Found 'hell'" : "Not found 'hell'") << el;
-    cout << (trie.find("he") ? "Found prefix 'he'" : "Not found prefix 'he'") << el;
-    cout << (trie.find("wo") ? "Found prefix 'wo'" : "Not found prefix 'wo'") << el;
-    cout << (trie.search("world") ? "Found 'world'" : "Not found 'world'") << el;
-    cout << (trie.search("word") ? "Found 'word'" : "Not found 'word'") << el;
-    cout << (trie.find("worl") ? "Found prefix 'worl'" : "Not found prefix 'worl'") << el;
-    cout << (trie.find("helloworld") ? "Found prefix 'helloworld'" : "Not found prefix 'helloworld'") << el;
-    cout << (trie.search("helloworld") ? "Found 'helloworld'" : "Not found 'helloworld'") << el;
+    
 }
 
 int main() {
