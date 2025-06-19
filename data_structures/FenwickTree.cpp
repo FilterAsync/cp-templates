@@ -32,51 +32,87 @@ const int MAXN = 1E5 + 5;
 const ll MOD = 1E9 + 7, INF = 1E18;
 const double EPS = 1E-9;
 
-template<class T> struct BIT {
-    int n;
-    vector<T> bit;
+// assuming 1-indexed FTs
 
-    BIT(int n) : n(n) {
-        bit.assign(n + 1, 0);
-    }
-
-    void update(int i, T val) {
-        for (; i <= n; i += i & -i) {
-            bit[i] += val;
+namespace PointUpdateRangeQuery {
+    template<class T> struct BIT {
+    private:
+        int n;
+        vector<T> bit;
+    public:
+        BIT(int n) : n(n) {
+            bit.assign(n + 1, 0);
         }
-    }
 
-    T query(int i) {
-        T res = 0;
-        for (; i >= 1; i -= i & -i) {
-            res += bit[i];
-        }
-        return res;
-    }
-
-    T query(int l, int r) {
-        return query(r) - query(l - 1);
-    }
-
-    int lower_bound(T val) {
-        int idx = 0;
-        T sum = 0;
-        for (int i = 1 << 20; i > 0; i >>= 1) {
-            if (idx + i <= n && sum + bit[idx + i] < val) {
-                idx += i;
-                sum += bit[idx];
+        void update(int i, T val) {
+            for (; i <= n; i += i & -i) {
+                bit[i] += val;
             }
         }
-        return idx + 1;
-    }
-};
 
-// FT for range updates and range queries
-namespace Extended {
+        T query(int i) {
+            T res = 0;
+            for (; i >= 1; i -= i & -i) {
+                res += bit[i];
+            }
+            return res;
+        }
+
+        T query(int l, int r) {
+            return query(r) - query(l - 1);
+        }
+
+        int lower_bound(T val) {
+            int idx = 0;
+            T sum = 0;
+            for (int i = 1 << 20; i > 0; i >>= 1) {
+                if (idx + i <= n && sum + bit[idx + i] < val) {
+                    idx += i;
+                    sum += bit[idx];
+                }
+            }
+            return idx + 1;
+        }
+    };
+}
+
+namespace RangeUpdatePointQuery {
     template<class T> struct BIT {
+    private:
+        int n;
+        vector<T> bit;
+    public:
+        BIT(int n) : n(n) {
+            bit.assign(n + 1, 0);
+        }
+
+        void update(int i, T val) {
+            for (; i <= n; i += i & -i) {
+                bit[i] += val;
+            }
+        }
+
+        void update(int l, int r, T val) {
+            update(l, val);
+            update(r + 1, -val);
+        }
+
+        T query(int i) {
+            T res = 0;
+            for (; i >= 1; i -= i & -i) {
+                res += bit[i];
+            }
+            return res;
+        }
+    };
+}
+
+namespace RangeUpdateRangeQuery {
+    template<class T> struct BIT {
+    private:
         int n;
         vector<T> bit1, bit2;
-
+    public:
         BIT(int n) : n(n) {
             bit1.resize(n + 1);
             bit2.resize(n + 1);
@@ -112,6 +148,8 @@ namespace Extended {
         }
     };
 }
+
+using namespace PointUpdateRangeQuery;
 
 void solve() {
     BIT<int> bit(10);
