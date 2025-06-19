@@ -47,20 +47,20 @@ const ll MOD = 1E9 + 7, INFLL = 1E18;
 const double EPS = 1E-9;
 
 // Sparse Table for Range Minimum Query (RMQ)
-template<class T>
-struct RMQ {
+template <typename T> class RMQ {
+private:
+    int n, lg;
     vector<vector<T>> st;
-
+public:
     RMQ(vector<T> const &a) {
-        int n = sz(a);
-        int lg = __lg(n) + 1;
-        st.resize(lg + 1, vector<T>(n + 1));
-        FOR(i, 1, n) {
-            st[0][i] = a[i];
-        }
-        FOR(j, 1, lg) {
-            for (int i = 1; i + (1 << j) - 1 <= n; i++) {
-                st[j][i] = min(st[j - 1][i], st[j - 1][i + (1 << (j - 1))]);
+        n = sz(a);
+        lg = __lg(n) + 1;
+        st.resize(lg);
+        st[0] = a;
+        FOR(i, 1, lg - 1) {
+            st[i].resize(n - (1 << i) + 1);
+            FOR(j, 0, n - (1 << i)) {
+                st[i][j] = min(st[i - 1][j], st[i - 1][j + (1 << (i - 1))]);
             }
         }
     }
@@ -72,14 +72,7 @@ struct RMQ {
 };
 
 void solve() {
-    // example usage
-    vector<int> a = {0, 1, 3, 2, 5, 4}; // 1-indexed
-    RMQ<int> rmq(a);
-    cout << "Minimum in range [1, 5]: " << rmq.query(1, 5) << el; // should return 1
-    cout << "Minimum in range [2, 4]: " << rmq.query(2, 4) << el; // should return 2
-    cout << "Minimum in range [3, 5]: " << rmq.query(3, 5) << el; // should return 2
-    cout << "Minimum in range [1, 1]: " << rmq.query(1, 1) << el; // should return 1
-    cout << "Minimum in range [5, 5]: " << rmq.query(5, 5) << el; // should return 4
+
 }
 
 int main() {

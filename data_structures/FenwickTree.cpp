@@ -32,35 +32,35 @@ const int MAXN = 1E5 + 5;
 const ll MOD = 1E9 + 7, INF = 1E18;
 const double EPS = 1E-9;
 
-struct BIT {
+template<class T> struct BIT {
     int n;
-    vector<ll> bit;
+    vector<T> bit;
 
     BIT(int n) : n(n) {
         bit.assign(n + 1, 0);
     }
 
-    void update(int i, ll val) {
+    void update(int i, T val) {
         for (; i <= n; i += i & -i) {
             bit[i] += val;
         }
     }
 
-    ll query(int i) {
-        ll res = 0;
+    T query(int i) {
+        T res = 0;
         for (; i >= 1; i -= i & -i) {
             res += bit[i];
         }
         return res;
     }
 
-    ll query(int l, int r) {
+    T query(int l, int r) {
         return query(r) - query(l - 1);
     }
 
-    int lower_bound(ll val) {
+    int lower_bound(T val) {
         int idx = 0;
-        ll sum = 0;
+        T sum = 0;
         for (int i = 1 << 20; i > 0; i >>= 1) {
             if (idx + i <= n && sum + bit[idx + i] < val) {
                 idx += i;
@@ -71,8 +71,50 @@ struct BIT {
     }
 };
 
+// FT for range updates and range queries
+namespace Extended {
+    template<class T> struct BIT {
+        int n;
+        vector<T> bit1, bit2;
+
+        BIT(int n) : n(n) {
+            bit1.resize(n + 1);
+            bit2.resize(n + 1);
+        }
+
+        void update(vector<T> &b, int i, T val) {
+            for (; i <= n; i += i & -i) {
+                b[i] += val;
+            }
+        }
+
+        void update(int l, int r, T val) {
+            update(bit1, l, (n - l + 1) * val);
+            update(bit1, r + 1, -(n - r) * val);
+            update(bit2, l, val);
+            update(bit2, r + 1, -val);
+        }
+
+        T query(vector<T> &b, int i) {
+            T res = 0;
+            for (; i >= 1; i -= i & -i) {
+                res += b[i];
+            }
+            return res;
+        }
+
+        T query(int i) {
+            return query(bit1, i) - (n - i) * query(bit2, i);
+        }
+
+        T query(int l, int r) {
+            return query(r) - query(l - 1);
+        }
+    };
+}
+
 void solve() {
-    BIT bit(10);
+    BIT<int> bit(10);
     bit.update(1, 5);
     bit.update(2, 3);
     bit.update(3, 2);
