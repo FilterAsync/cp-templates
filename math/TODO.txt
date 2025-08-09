@@ -4,8 +4,6 @@ Write templates for:
 3. Extended Euclidean algorithm
 4. Modular arithmetic
 5. Chinese Remainder Theorem
-6. GCD and LCM
-7. Prime factorization
-8. Fermat's Little Theorem
-9. Euler's Totient Function
-10. Combinatorial number theory (binomial coefficients, etc.)
+6. Prime factorization
+7. Euler's Totient Function
+8. Combinatorial number theory (Binomial coefficients, Catalan numbers, etc.)
