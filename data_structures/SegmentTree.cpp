@@ -2,72 +2,92 @@
 
 using namespace std;
 
-template<class T> bool chmax(T &a, T const &b) {
-    return (a < b ? (a = b, true) : false);
-}
-
-template<class T> bool chmin(T &a, T const &b) {
-    return (a > b ? (a = b, true) : false);
-}
-
 #define el "\n"
 #define pii pair<int, int>
 #define pll pair<ll, ll>
 #define fi first
 #define se second
-#define FOR(i, l, r) for (int i = l; i <= r; i++)
-#define FOD(i, l, r) for (int i = l; i >= r; i--)
+#define FOR(i, l, r) for (int i = l; i <= (r); i++)
+#define FOD(i, l, r) for (int i = l; i >= (r); i--)
 #define all(x) (x).begin(), (x).end()
 #define rall(x) (x).rbegin(), (x).rend()
-#define sz(x) (int)(x).size()
-#define by(x) [](auto const &a, auto const &b) { return a.x < b.x; }
+#define sz(x) ((int)(x).size())
 #define fast_io ios_base::sync_with_stdio(false); cin.tie(nullptr);
 
+using db = long double;
 using ll = long long;
+using ull = unsigned long long;
 using vi = vector<int>;
 using vll = vector<ll>;
 using vpii = vector<pii>;
+using vpll = vector<pll>;
+using vvi = vector<vi>;
+using vvll = vector<vll>;
+using vbool = vector<bool>;
+using vvbool = vector<vbool>;
 
-#define LOCAL
-#ifdef LOCAL
-template<typename T> void _print(const char* name, T&& x) {
-    cerr << name << " = " << x << el;
-}
-#define debug(x) _print(#x, x)
+template<class T> bool chmax(T &a, T const &b) { return (a < b ? (a = b, true) : false); }
+
+template<class T> bool chmin(T &a, T const &b) { return (a > b ? (a = b, true) : false); }
+
+// #define DEBUG
+#ifdef DEBUG
+#include "D:\cpp\debug.h"
 #else
-#define debug(x)
+#define debug(...)
+#define debug_arr(...)
 #endif
 
 mt19937 rng((uint32_t)chrono::steady_clock::now().time_since_epoch().count());
 
-const string NAME = "PROBLEM";
-const int MAXN = 1E5 + 5;
-const int INF = 1E9 + 7;
-const ll MOD = 1E9 + 7, INFLL = 1E18;
-const double EPS = 1E-9;
+constexpr int N = 1E5 + 5;
+constexpr int INF = 1E9 + 7;
+constexpr ll MOD = 1E9 + 7, INFLL = 1E18 + 7;
+constexpr double EPS = 1E-9;
 
-struct SegmentTree {
+// range sum
+template<class T> struct SegmentTree {
+private:
     int n;
-    vector<ll> tree;
-    SegmentTree(int n) : n(n) {
-        tree.resize(4 * n + 5);
+    vector<T> tree;
+
+    void build(vector<T> const &a, int i, int l, int r) {
+        if (l == r) {
+            tree[i] = a[l];
+            return;
+        }
+        int m = (l + r) / 2;
+        build(a, i * 2, l, m);
+        build(a, i * 2 + 1, m + 1, r);
+        tree[i] = tree[i * 2] + tree[i * 2 + 1];
+    }
+public:
+    SegmentTree(vector<T> const &a, int n): n(n), tree(4 * n + 5) {
+        build(a, 1, 1, n);
     }
 
-    void update(int i, int l, int r, int ql, int qr, ll val) {
-        if (l > r || l > qr || r < ql) return;
-        if (l >= ql && r <= qr) return;
+    void update(int i, int l, int r, int k, T val) {
+        if (l > r || l > k || k > r) return;
+        if (l == r) {
+            tree[i] = val;
+            return;
+        }
         int m = (l + r) / 2;
-        update(i * 2, l, m, ql, qr, val);
-        update(i * 2 + 1, m + 1, r, ql, qr, val);
+        update(i * 2, l, m, k, val);
+        update(i * 2 + 1, m + 1, r, k, val);
         tree[i] = tree[i * 2] + tree[i * 2 + 1];
     }
 
-    ll get(int i, int l, int r, int ql, int qr) {
-        if (l > r || l > qr || r < ql) return 0;
+    T get(int i, int l, int r, int ql, int qr) {
+        if (l > r || l > qr || r < ql || ql > qr) return T();
         if (l >= ql && r <= qr) return tree[i];
         int m = (l + r) / 2;
         return get(i * 2, l, m, ql, qr) + get(i * 2 + 1, m + 1, r, ql, qr);
     }
+
+    void update(int k, T val) { return update(1, 1, n, k, val); }
+
+    T get(int ql, int qr) { return get(1, 1, n, ql, qr); }
 };
 
 void solve() {
@@ -76,9 +96,11 @@ void solve() {
 
 int main() {
     fast_io
+    #define LOCAL
     #ifndef LOCAL
-    freopen((NAME + ".INP").c_str(), "r", stdin);
-    freopen((NAME + ".OUT").c_str(), "w", stdout);
+    #define PROBLEM ""
+    freopen(PROBLEM ".INP", "r", stdin);
+    freopen(PROBLEM ".OUT", "w", stdout);
     #endif
 
     int t = 1;

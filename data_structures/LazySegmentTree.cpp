@@ -2,92 +2,122 @@
 
 using namespace std;
 
-template<class T> bool chmax(T &a, T const &b) {
-	return (a < b ? (a = b, true) : false);
-}
-
-template<class T> bool chmin(T &a, T const &b) {
-	return (a > b ? (a = b, true) : false);
-}
-
-using ll = long long;
-
 #define el "\n"
 #define pii pair<int, int>
 #define pll pair<ll, ll>
 #define fi first
 #define se second
-#define FOR(i, l, r) for (ll i = l; i <= r; i++)
-#define FOD(i, l, r) for (ll i = l; i >= r; i--)
-
+#define FOR(i, l, r) for (int i = l; i <= (r); i++)
+#define FOD(i, l, r) for (int i = l; i >= (r); i--)
 #define all(x) (x).begin(), (x).end()
 #define rall(x) (x).rbegin(), (x).rend()
-#define sz(x) (int)(x).size()
-
+#define sz(x) ((int)(x).size())
 #define fast_io ios_base::sync_with_stdio(false); cin.tie(nullptr);
 
-#define LOCAL
+using db = long double;
+using ll = long long;
+using ull = unsigned long long;
+using vi = vector<int>;
+using vll = vector<ll>;
+using vpii = vector<pii>;
+using vpll = vector<pll>;
+using vvi = vector<vi>;
+using vvll = vector<vll>;
+using vbool = vector<bool>;
+using vvbool = vector<vbool>;
 
-const int MAXN = 1E5 + 5;
-const ll MOD = 1E9 + 7, INF = 1E18;
-const double EPS = 1E-9;
+template<class T> bool chmax(T &a, T const &b) { return (a < b ? (a = b, true) : false); }
 
-// segment tree with lazy propagation
-// assuming range sum query
-struct SegmentTree {
+template<class T> bool chmin(T &a, T const &b) { return (a > b ? (a = b, true) : false); }
+
+// #define DEBUG
+#ifdef DEBUG
+#include "D:\cpp\debug.h"
+#else
+#define debug(...)
+#define debug_arr(...)
+#endif
+
+mt19937 rng((uint32_t)chrono::steady_clock::now().time_since_epoch().count());
+
+constexpr int N = 1E5 + 5;
+constexpr int INF = 1E9 + 7;
+constexpr ll MOD = 1E9 + 7, INFLL = 1E18 + 7;
+constexpr double EPS = 1E-9;
+
+// range add range sum
+template<class T> struct SegmentTree {
+private:
     int n;
-    vector<ll> tree, lazy;
+    vector<T> tree, lazy;
 
-    SegmentTree(int n) : n(n) {
-        tree.resize(4 * n + 5);
-        lazy.resize(4 * n + 5);
+    void build(vector<T> const &a, int i, int l, int r) {
+        if (l == r) {
+            tree[i] = a[l];
+            return;
+        }
+        int m = (l + r) / 2;
+        build(a, i * 2, l, m);
+        build(a, i * 2 + 1, m + 1, r);
+        tree[i] = tree[i * 2] + tree[i * 2 + 1];
+    }
+
+    void apply(int i, int len, T val) {
+        tree[i] += val * len;
+        lazy[i] += val;
     }
 
     void push(int i, int l, int r) {
-        if (!lazy[i]) return;
-        tree[i] += lazy[i] * (r - l + 1);
-        if (l != r) {
-            lazy[i * 2] += lazy[i];
-            lazy[i * 2 + 1] += lazy[i];
-        }
+        int m = (l + r) / 2;
+        apply(i * 2, m - l + 1, lazy[i]);
+        apply(i * 2 + 1, r - m, lazy[i]);
         lazy[i] = 0;
     }
+public:
+    SegmentTree(vector<T> const &a, int n) : n(n), tree(4 * n + 5), lazy(4 * n + 5) {
+        build(a, 1, 1, n);
+    }
 
-    void update(int i, int l, int r, int ql, int qr, ll val) {
-        push(i, l, r);
-        if (l > r || l > qr || r < ql) return;
+    void update(int i, int l, int r, int ql, int qr, T val) {
+        if (l > r || l > qr || r < ql || ql > qr) return;
         if (l >= ql && r <= qr) {
-            lazy[i] += val;
-            push(i, l, r);
+            apply(i, r - l + 1, val);
             return;
         }
+        push(i, l, r);
         int m = (l + r) / 2;
         update(i * 2, l, m, ql, qr, val);
         update(i * 2 + 1, m + 1, r, ql, qr, val);
         tree[i] = tree[i * 2] + tree[i * 2 + 1];
     }
 
-    ll get(int i, int l, int r, int ql, int qr) {
-        push(i, l, r);
-        if (l > r || l > qr || r < ql) return 0;
+    T get(int i, int l, int r, int ql, int qr) {
+        if (l > r || l > qr || r < ql || ql > qr) return T();
         if (l >= ql && r <= qr) return tree[i];
+        push(i, l, r);
         int m = (l + r) / 2;
         return get(i * 2, l, m, ql, qr) + get(i * 2 + 1, m + 1, r, ql, qr);
     }
+
+    void update(int ql, int qr, T val) { return update(1, 1, n, ql, qr, val); }
+
+    void get(int ql, int qr, T val) { return get(1, 1, n, ql, qr, val); }
 };
 
 void solve() {
-	cout << __cplusplus;
+    
 }
 
 int main() {
-	fast_io
-	#ifndef LOCAL
-		freopen("INPUT.INP", "r", stdin);
-		freopen("OUTPUT.OUT", "w", stdout);
-	#endif
+    fast_io
+    #define LOCAL
+    #ifndef LOCAL
+    #define PROBLEM ""
+    freopen(PROBLEM ".INP", "r", stdin);
+    freopen(PROBLEM ".OUT", "w", stdout);
+    #endif
 
-	int t = 1;
-	// cin >> t;
-	while (t--) solve();
+    int t = 1;
+    // cin >> t;
+    while (t--) solve();
 }
