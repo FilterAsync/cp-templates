@@ -57,9 +57,9 @@ private:
             return;
         }
         int m = (l + r) / 2;
-        build(a, i * 2, l, m);
-        build(a, i * 2 + 1, m + 1, r);
-        tree[i] = tree[i * 2] + tree[i * 2 + 1];
+        build(a, i << 1, l, m);
+        build(a, i << 1 | 1, m + 1, r);
+        tree[i] = tree[i << 1] + tree[i << 1 | 1];
     }
 
     void apply(int i, int len, T val) {
@@ -69,8 +69,8 @@ private:
 
     void push(int i, int l, int r) {
         int m = (l + r) / 2;
-        apply(i * 2, m - l + 1, lazy[i]);
-        apply(i * 2 + 1, r - m, lazy[i]);
+        apply(i << 1, m - l + 1, lazy[i]);
+        apply(i << 1 | 1, r - m, lazy[i]);
         lazy[i] = 0;
     }
 public:
@@ -86,9 +86,9 @@ public:
         }
         push(i, l, r);
         int m = (l + r) / 2;
-        update(i * 2, l, m, ql, qr, val);
-        update(i * 2 + 1, m + 1, r, ql, qr, val);
-        tree[i] = tree[i * 2] + tree[i * 2 + 1];
+        update(i << 1, l, m, ql, qr, val);
+        update(i << 1 | 1, m + 1, r, ql, qr, val);
+        tree[i] = tree[i << 1] + tree[i << 1 | 1];
     }
 
     T get(int i, int l, int r, int ql, int qr) {
@@ -96,7 +96,7 @@ public:
         if (l >= ql && r <= qr) return tree[i];
         push(i, l, r);
         int m = (l + r) / 2;
-        return get(i * 2, l, m, ql, qr) + get(i * 2 + 1, m + 1, r, ql, qr);
+        return get(i << 1, l, m, ql, qr) + get(i << 1 | 1, m + 1, r, ql, qr);
     }
 
     void update(int ql, int qr, T val) { return update(1, 1, n, ql, qr, val); }
