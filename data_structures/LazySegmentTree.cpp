@@ -74,7 +74,7 @@ private:
         lazy[i] = 0;
     }
 public:
-    SegmentTree(vector<T> const &a, int n) : n(n), tree(4 * n + 5), lazy(4 * n + 5) {
+    SegmentTree(vector<T> const &a, int n): n(n), tree(4 * n + 5), lazy(4 * n + 5) {
         build(a, 1, 1, n);
     }
 
