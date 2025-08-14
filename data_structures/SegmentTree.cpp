@@ -56,7 +56,7 @@ private:
             tree[i] = a[l];
             return;
         }
-        int m = (l + r) / 2;
+        int m = (l + r) >> 1;
         build(a, i << 1, l, m);
         build(a, i << 1 | 1, m + 1, r);
         tree[i] = tree[i << 1] + tree[i << 1 | 1];
@@ -72,7 +72,7 @@ public:
             tree[i] = val;
             return;
         }
-        int m = (l + r) / 2;
+        int m = (l + r) >> 1;
         update(i << 1, l, m, k, val);
         update(i << 1 | 1, m + 1, r, k, val);
         tree[i] = tree[i << 1] + tree[i << 1 | 1];
@@ -81,7 +81,7 @@ public:
     T get(int i, int l, int r, int ql, int qr) {
         if (l > r || l > qr || r < ql || ql > qr) return T();
         if (l >= ql && r <= qr) return tree[i];
-        int m = (l + r) / 2;
+        int m = (l + r) >> 1;
         return get(i << 1, l, m, ql, qr) + get(i << 1 | 1, m + 1, r, ql, qr);
     }
 
