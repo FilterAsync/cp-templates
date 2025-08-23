@@ -27,7 +27,6 @@ using vbool = vector<bool>;
 using vvbool = vector<vbool>;
 
 template<class T> bool chmax(T &a, T const &b) { return (a < b ? (a = b, true) : false); }
-
 template<class T> bool chmin(T &a, T const &b) { return (a > b ? (a = b, true) : false); }
 
 // #define DEBUG
@@ -40,12 +39,13 @@ template<class T> bool chmin(T &a, T const &b) { return (a > b ? (a = b, true) :
 
 mt19937 rng((uint32_t)chrono::steady_clock::now().time_since_epoch().count());
 
-constexpr int MAXN = 1E5 + 5;
+constexpr int N = 1E5 + 5;
 constexpr int INF = 1E9 + 7;
-constexpr ll MOD = 1E9 + 7, INFLL = 1E18 + 7;
-constexpr double EPS = 1E-9;
+constexpr ll INFLL = 1E18;
+constexpr int MOD = 1E9 + 7; // 998244353
+constexpr double EPS = 1E-10;
 
-void solve() {
+inline void solve() {
     
 }
 
