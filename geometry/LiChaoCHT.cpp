@@ -44,7 +44,7 @@ mt19937 rng((uint32_t)chrono::steady_clock::now().time_since_epoch().count());
 
 constexpr int N = 1E5 + 5;
 constexpr int INF = 1E9 + 7;
-constexpr ll INFLL = 1E18;
+constexpr ll INFLL = 4E18;
 constexpr int MOD = 1E9 + 7; // 998244353
 constexpr double EPS = 1E-10;
 
@@ -72,14 +72,14 @@ struct LiChao {
     Node* insert(Node* node, ll l, ll r, Line nw) {
         if (!node) return new Node(nw);
         ll mid = (l + r) / 2;
-        // at mid prefer the line that gives larger value
-        if (nw.eval(mid) > node->line.eval(mid)) {
+        // at mid prefer the line that gives smaller value
+        if (nw.eval(mid) < node->line.eval(mid)) {
             swap(nw, node->line);
         }
         if (l == r) return node;
-        if (nw.eval(l) > node->line.eval(l)) {
+        if (nw.eval(l) < node->line.eval(l)) {
             node->left = insert(node->left, l, mid, nw);
-        } else if (nw.eval(r) > node->line.eval(r)) {
+        } else if (nw.eval(r) < node->line.eval(r)) {
             node->right = insert(node->right, mid + 1, r, nw);
         }
         return node;
@@ -89,19 +89,19 @@ struct LiChao {
     void add(ll m, ll b) { add(Line(m, b)); }
 
     ll get(Node* node, ll l, ll r, ll x) const {
-        if (!node) return -INFLL;
+        if (!node) return INFLL;
         ll res = node->line.eval(x);
         if (l == r) return res;
         ll mid = (l + r) / 2;
         if (x <= mid) {
-            return max(res, get(node->left, l, mid, x));
+            return min(res, get(node->left, l, mid, x));
         } else {
-            return max(res, get(node->right, mid + 1, r, x));
+            return min(res, get(node->right, mid + 1, r, x));
         }
     }
 
     ll get(ll x) const {
-        if (x < lo || x > hi) return -INFLL;
+        if (x < lo || x > hi) return INFLL;
         return get(root, lo, hi, x);
     }
 };
