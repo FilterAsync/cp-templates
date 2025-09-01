@@ -48,20 +48,19 @@ const double EPS = 1E-9;
 
 using T = ll;
 
-// this might be slow as there are too many % operators!!!
-T add(T a, T b) { return (a % MOD + b % MOD) % MOD; }
-T sub(T a, T b) { return (a % MOD - b % MOD + MOD) % MOD; }
-T mul(T a, T b) { return (a % MOD * b % MOD) % MOD; }
-T power(T a, T b) {
-    T res = 1;
+inline int add(int a, int b, int m = MOD) { return (a + b) % m; }
+inline int sub(int a, int b, int m = MOD) { return (a - b + m) % m; }
+inline int mul(int a, int b, int m = MOD) { return 1LL * a * b % m; }
+inline int power(int a, int b, int m = MOD) {
+    int res = 1;
     while (b) {
-        if (b & 1) res = mul(res, a);
-        a = mul(a, a);
+        if (b & 1) res = mul(res, a, m);
+        a = mul(a, a, m);
         b >>= 1;
     }
     return res;
 }
-T inv(T a) { return power(a, MOD - 2); } // assuming a and MOD are coprime
+inline int inv(int a, int m = MOD) { return power(a, m - 2, m); }
 
 void solve() {
     

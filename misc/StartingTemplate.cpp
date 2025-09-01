@@ -45,7 +45,7 @@ constexpr ll INFLL = 1E18;
 constexpr int MOD = 1E9 + 7; // 998244353
 constexpr double EPS = 1E-10;
 
-inline void solve() {
+void solve() {
     
 }
 

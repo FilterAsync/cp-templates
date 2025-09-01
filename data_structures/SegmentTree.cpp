@@ -62,6 +62,7 @@ private:
         tree[i] = tree[i << 1] + tree[i << 1 | 1];
     }
 public:
+    SegmentTree(int n): n(n), tree(4 * n + 5) {}
     SegmentTree(vector<T> const &a, int n): n(n), tree(4 * n + 5) {
         build(a, 1, 1, n);
     }

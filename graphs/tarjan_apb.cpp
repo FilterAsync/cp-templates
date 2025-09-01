@@ -1,3 +1,4 @@
+// Tarjan's algorithm for finding articulation points and bridges
 #include <bits/stdc++.h>
 
 using namespace std;

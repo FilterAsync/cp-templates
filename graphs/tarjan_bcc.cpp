@@ -1,3 +1,4 @@
+// Tarjan's algorithm for finding biconnected components
 #include <bits/stdc++.h>
 
 using namespace std;

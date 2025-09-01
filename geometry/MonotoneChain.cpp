@@ -1,4 +1,4 @@
-// #pragma GCC optimize("Ofast")
+// Monotone Chain algorithm for finding the convex hull
 
 #include <bits/stdc++.h>
 

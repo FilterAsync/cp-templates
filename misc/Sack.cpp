@@ -1,5 +1,5 @@
-// aka. DSU on Tree
-// Example: Given a tree with colored nodes, compute for each node how many distinct colors exist in its subtree.
+// Sack aka. DSU on Tree
+// Given a tree with colored nodes, compute for each node how many distinct colors exist in its subtree.
 #include <bits/stdc++.h>
 
 using namespace std;

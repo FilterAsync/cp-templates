@@ -48,24 +48,75 @@ constexpr ll INFLL = 1E18;
 constexpr int MOD = 1E9 + 7; // 998244353
 constexpr double EPS = 1E-10;
 
-struct DSU {
-    vi parent, size;
-    DSU(int n): parent(n + 1), size(n + 1, 1) { iota(begin(parent), end(parent), 0); }
-
-    int find(int u) { return u == parent[u] ? u : parent[u] = find(parent[u]); }
-
-    bool join(int u, int v) {
-        u = find(u), v = find(v);
-        if (u == v) return false;
-        if (size[u] < size[v]) swap(u, v);
-        parent[v] = u;
-        size[u] += size[v];
-        return true;
+string add(string a, string b) {
+    int m = sz(a), n = sz(b);
+    string res = "";
+    int i = m - 1, j = n - 1, carry = 0;
+    while (i >= 0 || j >= 0 || carry != 0) {
+        int sum = carry;
+        if (i >= 0) {
+            sum += a[i--] - '0';
+        }
+        if (j >= 0) {
+            sum += b[j--] - '0';
+        }
+        res += sum % 10 + '0';
+        carry = sum / 10;
     }
-};
+    reverse(all(res));
+    return res;
+}
+
+string sub(string a, string b) {
+    int m = sz(a), n = sz(b);
+    string res = "";
+    int i = m - 1, j = n - 1, borrow = 0;
+    while (i >= 0 || j >= 0) {
+        int diff = borrow;
+        if (i >= 0) {
+            diff += a[i--] - '0';
+        }
+        if (j >= 0) {
+            diff -= b[j--] - '0';
+        }
+        if (diff < 0) {
+            diff += 10;
+            borrow = 1;
+        } else {
+            borrow = 0;
+        }
+        res += diff + '0';
+    }
+    reverse(all(res));
+    while (sz(res) > 1 && res[0] == '0') {
+        res.erase(res.begin());
+    }
+    return res;
+}
+
+string mul(string a, string b) {
+    int m = sz(a), n = sz(b);
+    vi nums(m + n);
+    FOD(i, m - 1, 0) {
+        FOD(j, n - 1, 0) {
+            int mul = (a[i] - '0') * (b[j] - '0');
+            int sum = mul + nums[i + j + 1];
+            nums[i + j] += sum / 10;
+            nums[i + j + 1] = sum % 10;
+        }
+    }
+    string res = "";
+    for (int num : nums) {
+        if (sz(res) == 0 && num == 0) {
+            continue;
+        }
+        res += num + '0';
+    }
+    return sz(res) ? res : "0";
+}
 
 void solve() {
-	
+    
 }
 
 int main() {

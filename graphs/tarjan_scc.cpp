@@ -1,3 +1,4 @@
+// Tarjan's algorithm for finding strongly connected components
 #include <bits/stdc++.h>
 
 using namespace std;

@@ -1,9 +1,0 @@
-Write templates for:
-1. Sieve of Eratosthenes
-2. Fast exponentiation
-3. Extended Euclidean algorithm
-4. Modular arithmetic
-5. Chinese Remainder Theorem
-6. Prime factorization
-7. Euler's Totient Function
-8. Combinatorial number theory (Binomial coefficients, Catalan numbers, etc.)

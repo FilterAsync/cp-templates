@@ -49,7 +49,6 @@ const double EPS = 1E-9;
 struct Node {
     Node* child[2];
     int exist, cnt;
-
     Node() {
         child[0] = child[1] = nullptr;
         exist = cnt = 0;
@@ -58,9 +57,7 @@ struct Node {
 
 struct Trie {
     Node* root;
-    Trie() {
-        root = new Node();
-    };
+    Trie() { root = new Node(); };
 
     void insert(int x) {
         Node* p = root;
@@ -76,10 +73,7 @@ struct Trie {
     }
 
     void erase(int x) {
-        if (!find(x)) {
-            return;
-        }
-
+        if (!find(x)) return;
         Node* p = root;
         FOD(i, 31, 0) {
             int c = (x >> i) & 1;
@@ -94,13 +88,11 @@ struct Trie {
             }
             p = tmp;
         }
-
         p->exist--;
     }
 
     bool find(int x) {
         Node* p = root;
-
         FOD(i, 31, 0) {
             int c = (x >> i) & 1;
             if (p->child[c] == nullptr) {
@@ -108,7 +100,6 @@ struct Trie {
             }
             p = p->child[c];
         }
-
         return p->exist != 0;
     }
 };

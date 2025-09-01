@@ -1,3 +1,4 @@
+// Hierholzer algorithm for finding an Euler tour
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -73,7 +74,7 @@ list<int> hierholzer(int s) {
     return res;
 }
 
-inline void solve() {
+void solve() {
     
 }
 

@@ -1,4 +1,4 @@
-// finding lca by pure binary lifting
+// Finding LCA by Binary Lifting only
 #include <bits/stdc++.h>
 
 using namespace std;

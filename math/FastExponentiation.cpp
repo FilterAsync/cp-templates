@@ -32,18 +32,16 @@ const int MAXN = 1E5 + 5;
 const ll MOD = 1E9 + 7, INF = 1E18;
 const double EPS = 1E-9;
 
-ll bin_exp(ll a, ll b, ll m) {
-	ll res = 1;
-
+int power(int a, int b, int m) {
+	int res = 1;
 	a %= m;
 	while (b > 0) {
 		if (b % 2 == 1) {
-			res = res * a % m;
+			res = 1LL * res * a % m;
 		}
-		a = a * a % m;
+		a = 1LL * a * a % m;
 		b /= 2;
 	}
-
 	return res;
 }
 

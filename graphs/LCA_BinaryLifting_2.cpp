@@ -1,4 +1,4 @@
-// finding lca by binary lifting + euler tour
+// Finding LCA by Binary Lifting + Euler Tour
 #include <bits/stdc++.h>
 
 using namespace std;
