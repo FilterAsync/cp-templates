@@ -48,7 +48,7 @@ constexpr ll INFLL = 1E18;
 constexpr int MOD = 1E9 + 7; // 998244353
 constexpr double EPS = 1E-10;
 
-string add(string a, string b) {
+string add(string &a, string &b) {
     int m = sz(a), n = sz(b);
     string res = "";
     int i = m - 1, j = n - 1, carry = 0;
@@ -67,7 +67,7 @@ string add(string a, string b) {
     return res;
 }
 
-string sub(string a, string b) {
+string sub(string &a, string &b) {
     int m = sz(a), n = sz(b);
     string res = "";
     int i = m - 1, j = n - 1, borrow = 0;
@@ -94,7 +94,7 @@ string sub(string a, string b) {
     return res;
 }
 
-string mul(string a, string b) {
+string mul(string &a, string &b) {
     int m = sz(a), n = sz(b);
     vi nums(m + n);
     FOD(i, m - 1, 0) {
