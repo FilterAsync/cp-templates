@@ -66,8 +66,8 @@ struct LiChao {
         Node(Line const &line): line(line), left(nullptr), right(nullptr) {}
     };
     Node *root;
-    ll lo, hi;
-    LiChao(ll lo, ll hi): root(nullptr), lo(lo), hi(hi) {}
+    ll low, high;
+    LiChao(ll low, ll high): root(nullptr), low(low), high(high) {}
 
     Node* insert(Node* node, ll l, ll r, Line nw) {
         if (!node) return new Node(nw);
@@ -85,7 +85,7 @@ struct LiChao {
         return node;
     }
 
-    void add(Line nw) { root = insert(root, lo, hi, nw); }
+    void add(Line nw) { root = insert(root, low, high, nw); }
     void add(ll m, ll b) { add(Line(m, b)); }
 
     ll get(Node* node, ll l, ll r, ll x) const {
@@ -101,8 +101,8 @@ struct LiChao {
     }
 
     ll get(ll x) const {
-        if (x < lo || x > hi) return INFLL;
-        return get(root, lo, hi, x);
+        if (x < low || x > high) return INFLL;
+        return get(root, low, high, x);
     }
 };
 
