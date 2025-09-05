@@ -32,21 +32,10 @@ const int MAXN = 1E5 + 5;
 const ll MOD = 1E9 + 7, INF = 1E18;
 const double EPS = 1E-9;
 
-int get(uint64_t x, int i) {
-	return (x >> i) & 1;
-}
-
-void set(uint64_t &x, int i) {
-	x |= 1ULL << i;
-}
-
-void clear(uint64_t &x, int i) {
-	x &= ~1ULL << i;
-}
-
-void toggle(uint64_t &x, int i) {
-	x ^= 1ULL << i;
-}
+inline int get(uint64_t x, int i) { return (x >> i) & 1; }
+inline void set(uint64_t &x, int i) { x |= 1ULL << i; }
+inline void clear(uint64_t &x, int i) { x &= ~1ULL << i; }
+inline void toggle(uint64_t &x, int i) { x ^= 1ULL << i; }
 
 void solve() {
 	
