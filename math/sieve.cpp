@@ -1,64 +1,82 @@
+// #pragma GCC optimize("Ofast")
+
 #include <bits/stdc++.h>
 
 using namespace std;
-
-template<class T> bool chmax(T &a, T const &b) {
-	return (a < b ? (a = b, true) : false);
-}
-
-template<class T> bool chmin(T &a, T const &b) {
-	return (a > b ? (a = b, true) : false);
-}
-
-using ll = long long;
 
 #define el "\n"
 #define pii pair<int, int>
 #define pll pair<ll, ll>
 #define fi first
 #define se second
-#define FOR(i, l, r) for (ll i = l; i <= r; i++)
-#define FOD(i, l, r) for (ll i = l; i >= r; i--)
-
+#define sqr(x) ((x) * (x))
+#define FOR(i, l, r) for (int i = l; i <= (r); i++)
+#define FOD(i, l, r) for (int i = l; i >= (r); i--)
 #define all(x) (x).begin(), (x).end()
 #define rall(x) (x).rbegin(), (x).rend()
-#define sz(x) (int)(x).size()
-
+#define sz(x) ((int)(x).size())
 #define fast_io ios_base::sync_with_stdio(false); cin.tie(nullptr);
 
-#define LOCAL
+using db = long double;
+using ll = long long;
+using ull = unsigned long long;
+using vi = vector<int>;
+using vll = vector<ll>;
+using vpii = vector<pii>;
+using vpll = vector<pll>;
+using vvi = vector<vi>;
+using vvll = vector<vll>;
+using vbool = vector<bool>;
+using vvbool = vector<vbool>;
 
-const int MAXN = 1E5 + 5;
-const ll MOD = 1E9 + 7, INF = 1E18;
-const double EPS = 1E-9;
+template<class T> inline bool chmax(T &a, T const &b) { return (a < b ? (a = b, true) : false); }
+template<class T> inline bool chmin(T &a, T const &b) { return (a > b ? (a = b, true) : false); }
 
-vector<bool> sieve(int n) {
-	vector<bool> is_prime(n + 1, true);
-	is_prime[0] = is_prime[1] = false;
+// #define DEBUG
+#ifdef DEBUG
+#include "D:\cpp\debug.h"
+#else
+#define debug(...)
+#define debug_arr(...)
+#endif
 
+mt19937 rng((uint32_t)chrono::steady_clock::now().time_since_epoch().count());
+
+constexpr int N = 1E6 + 5;
+constexpr int INF = 1E9 + 7;
+constexpr ll INFLL = 4E18;
+constexpr int MOD = 1E9 + 7; // 998244353
+constexpr double EPS = 1E-10;
+
+bool prime[N + 5];
+
+void sieve(int n) {
+	fill(prime, prime + N + 1, true);
+	prime[0] = prime[1] = false;
 	for (int i = 2; i * i <= n; i++) {
-		if (is_prime[i]) {
-			for (int j = i * i; j <= n; j += i) {
-				is_prime[j] = false;
+		if (prime[i]) {
+			for (int j = i * 2; j <= n; j += i) {
+				prime[j] = false;
 			}
 		}
 	}
-
-	return is_prime;
 }
 
+
 void solve() {
-	
+    
 }
 
 int main() {
-	fast_io
-	#ifndef LOCAL
-		freopen("INPUT.INP", "r", stdin);
-		freopen("OUTPUT.OUT", "w", stdout);
-	#endif
+    fast_io
+    #define LOCAL
+    #ifndef LOCAL
+    #define PROBLEM ""
+    freopen(PROBLEM ".INP", "r", stdin);
+    freopen(PROBLEM ".OUT", "w", stdout);
+    #endif
 
-	int t = 1;
-	// cin >> t;
-	while (t--) solve();
+    int t = 1;
+    // cin >> t;
+    while (t--) solve();
 }
